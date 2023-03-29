@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     BigInt       @id @default(autoincrement()) @map("user_id")
+  nickname               String       @db.VarChar(20)
+  email                  String       @unique @db.VarChar(50)
+  description            String?      @db.VarChar(50)
+  groupId                BigInt       @map("group_id")
+  group                  Group        @relation(fields: [groupId], references: [id])
+  consultingAsCounselee  Consulting[] @relation("Counselee")
+  consultingAsConsultant Consulting[] @relation("Consultant")
+  Chat                   Chat[]
+
+  @@map("tbl_user")
+}
+
+model Group {
+  id     BigInt    @id @default(autoincrement()) @map("group_id")
+  name   String    @db.VarChar(20)
+  domain String    @db.VarChar(20)
+  type   GroupType
+  users  User[]
+
+  @@map("tbl_group")
+}
+
+enum GroupType {
+  SCHOOL
+  COMPANY
+}
+
+model Consulting {
+  id           BigInt @id @default(autoincrement()) @map("consulting_id")
+  state        State  @default(OPENED)
+  counseleeId  BigInt @map("counselee_id")
+  counselee    User   @relation("Counselee", fields: [counseleeId], references: [id])
+  consultantId BigInt @map("consultant_id")
+  consultant   User   @relation("Consultant", fields: [consultantId], references: [id])
+  Chat         Chat[]
+
+  @@map("tbl_consulting")
+}
+
+enum State {
+  OPENED
+  CLOSED
+}
+
+model Chat {
+  id           BigInt     @id @default(autoincrement()) @map("chat_id")
+  text         String     @db.VarChar(200)
+  userId       BigInt     @map("user_id")
+  user         User       @relation(fields: [userId], references: [id])
+  consultingId BigInt     @map("consulting_id")
+  consulting   Consulting @relation(fields: [consultingId], references: [id])
+  sentAt       DateTime   @default(now()) @map("sent_at")
+
+  @@map("tbl_chat")
+}

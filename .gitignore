@@ -1,6 +1,5 @@
 # etc
-.idea
-.DS_Store
+prisma/migrations
 
 # compiled output
 /dist
