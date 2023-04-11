@@ -15,6 +15,7 @@ model User {
   nickname               String       @db.VarChar(20)
   email                  String       @unique @db.VarChar(50)
   description            String?      @db.VarChar(50)
+  password               String       @db.VarChar(60)
   groupId                BigInt       @map("group_id")
   group                  Group        @relation(fields: [groupId], references: [id])
   consultingAsCounselee  Consulting[] @relation("Counselee")
