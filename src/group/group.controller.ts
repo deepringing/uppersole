@@ -4,7 +4,7 @@ import { CreateGroupRequest } from './dto/create.request';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('그룹')
-@Controller('group')
+@Controller('groups')
 export class GroupController {
 
   constructor(private readonly groupService: GroupService) {}

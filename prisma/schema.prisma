@@ -21,6 +21,8 @@ model User {
   consultingAsCounselee  Consulting[] @relation("Counselee")
   consultingAsConsultant Consulting[] @relation("Consultant")
   Chat                   Chat[]
+  JackChatRoom           ChatRoom[]   @relation("Jack")
+  JillChatRoom           ChatRoom[]   @relation("Jill")
 
   @@map("tbl_user")
 }
@@ -45,13 +47,14 @@ enum GroupType {
 }
 
 model Consulting {
-  id           BigInt @id @default(autoincrement()) @map("consulting_id")
-  state        State  @default(OPENED)
-  counseleeId  BigInt @map("counselee_id")
-  counselee    User   @relation("Counselee", fields: [counseleeId], references: [id])
-  consultantId BigInt @map("consultant_id")
-  consultant   User   @relation("Consultant", fields: [consultantId], references: [id])
-  Chat         Chat[]
+  id           BigInt   @id @default(autoincrement()) @map("consulting_id")
+  state        State    @default(OPENED)
+  counseleeId  BigInt   @map("counselee_id")
+  counselee    User     @relation("Counselee", fields: [counseleeId], references: [id])
+  consultantId BigInt   @map("consultant_id")
+  consultant   User     @relation("Consultant", fields: [consultantId], references: [id])
+  startDate    DateTime @map("start_date")
+  endDate      DateTime @map("end_date")
 
   @@map("tbl_consulting")
 }
@@ -62,13 +65,21 @@ enum State {
 }
 
 model Chat {
-  id           BigInt     @id @default(autoincrement()) @map("chat_id")
-  text         String     @db.VarChar(200)
-  userId       BigInt     @map("user_id")
-  user         User       @relation(fields: [userId], references: [id])
-  consultingId BigInt     @map("consulting_id")
-  consulting   Consulting @relation(fields: [consultingId], references: [id])
-  sentAt       DateTime   @default(now()) @map("sent_at")
+  id     BigInt   @id @default(autoincrement()) @map("chat_id")
+  text   String   @db.VarChar(200)
+  userId BigInt   @map("user_id")
+  user   User     @relation(fields: [userId], references: [id])
+  sentAt DateTime @default(now()) @map("sent_at")
 
   @@map("tbl_chat")
+}
+
+model ChatRoom {
+  id     BigInt @id @default(autoincrement()) @map("chat_room_id")
+  jackId BigInt @map("jack_id")
+  jack   User   @relation("Jack", fields: [jackId], references: [id])
+  jillId BigInt @map("jill_id")
+  jill   User   @relation("Jill", fields: [jillId], references: [id])
+
+  @@map("tbl_chat_room")
 }
