@@ -36,8 +36,12 @@ model Group {
 }
 
 enum GroupType {
-  SCHOOL
+  MIDDLE_SCHOOL
+  HIGH_SCHOOL
+  UNIVERSITY
+  OVERSEAS_EMPLOYMENT
   COMPANY
+  ETC
 }
 
 model Consulting {

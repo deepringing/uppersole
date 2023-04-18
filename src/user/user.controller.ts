@@ -1,7 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignUpRequest } from './dto/user.request';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('사용자')
 @Controller('users')
 export class UserController {
 
