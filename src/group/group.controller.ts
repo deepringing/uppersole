@@ -4,15 +4,21 @@ import { CreateGroupRequest } from './dto/create.request';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('그룹')
-@Controller('groups')
+@Controller('group')
 export class GroupController {
 
   constructor(private readonly groupService: GroupService) {}
 
   @ApiQuery({ name: 'q' })
   @Get()
-  async queryGroup(@Query('q') q: string) {
+  queryGroup(@Query('q') q: string) {
     return this.groupService.queryGroup(q);
+  }
+
+  @ApiQuery({ name: 'id' })
+  @Get('/member')
+  queryGroupMember(@Query('id') id: string) {
+    return this.groupService.queryGroupMember(id);
   }
 
   @Post()

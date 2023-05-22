@@ -4,7 +4,7 @@ import { SignUpRequest } from './dto/user.request';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('사용자')
-@Controller('users')
+@Controller('user')
 export class UserController {
 
   constructor(private readonly userService: UserService) {}
