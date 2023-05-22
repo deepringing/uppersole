@@ -3,7 +3,8 @@ import { AppModule } from './app.module';
 import { PrismaService } from './prisma/prisma.service';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import './util/bigint.util';
+import './shared/utils/bigint.util';
+import './shared/utils/date.util';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

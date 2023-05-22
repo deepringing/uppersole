@@ -48,7 +48,7 @@ enum GroupType {
 
 model Consulting {
   id           BigInt   @id @default(autoincrement()) @map("consulting_id")
-  state        State    @default(OPENED)
+  state        State    @default(APPLIED)
   counseleeId  BigInt   @map("counselee_id")
   counselee    User     @relation("Counselee", fields: [counseleeId], references: [id])
   consultantId BigInt   @map("consultant_id")
@@ -60,6 +60,9 @@ model Consulting {
 }
 
 enum State {
+  APPLIED
+  APPROVED
+  REJECTED
   OPENED
   CLOSED
 }

@@ -1,7 +1,8 @@
 import { IsEmail, IsInt, IsString, MaxLength, } from 'class-validator';
-import { ApiOperation, ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class SignUpRequest {
+  
   @IsString()
   @MaxLength(20)
   @ApiProperty()
