@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ConsultingService } from './consulting.service';
 import { ApplyConsultingRequest } from './dto/consulting.request';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,5 +19,15 @@ export class ConsultingController {
     @Body() request: ApplyConsultingRequest
   ) {
     await this.consultingService.applyConsulting(user, request);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/:id')
+  async handleConsultingApplication(
+    @CurrentUser() user: User,
+    @Param('id') id: string,
+    @Query('approve') approve: boolean
+  ) {
+    await this.consultingService.handleConsultingApplication(user, id, approve);
   }
 }
