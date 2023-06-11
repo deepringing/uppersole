@@ -11,7 +11,7 @@ services:
       MYSQL_DATABASE: "upper"
       MYSQL_ROOT_PASSWORD: "upper"
     ports:
-      - "3307:3306"
+      - "3309:3306"
     command:
       - "mysqld"
       - "--character-set-server=utf8mb4"

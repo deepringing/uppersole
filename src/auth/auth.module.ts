@@ -4,6 +4,8 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt/jwt.strategy';
+import { WebSocketJwtStrategy } from './jwt/socket-jwt.strategy';
+import { WebSocketJwtExtractor } from './jwt/web-socket-jwt-extractors.service';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
       signOptions: { expiresIn: '30d' }
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, WebSocketJwtStrategy, WebSocketJwtExtractor],
   controllers: [AuthController]
 })
 export class AuthModule {}

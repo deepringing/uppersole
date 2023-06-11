@@ -1,7 +1,7 @@
 import { Body, Controller, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ConsultingService } from './consulting.service';
 import { ApplyConsultingRequest } from './dto/consulting.request';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../shared/decorators/auth.decorator';
 import { User } from '@prisma/client';
@@ -21,6 +21,8 @@ export class ConsultingController {
     await this.consultingService.applyConsulting(user, request);
   }
 
+  @ApiParam({ name: 'id' })
+  @ApiQuery({ name: 'approve' })
   @UseGuards(AuthGuard('jwt'))
   @Put('/:id')
   async handleConsultingApplication(

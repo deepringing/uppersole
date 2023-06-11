@@ -5,13 +5,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import './shared/utils/bigint.util';
 import './shared/utils/date.util';
+import { SocketAdapter } from './shared/adapters/socket.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
 
   app.useGlobalPipes(new ValidationPipe());
-
+  app.useWebSocketAdapter(new SocketAdapter(app));
 
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app)
@@ -26,7 +27,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
 
-  await app.listen(3000);
+  await app.listen(3005);
 }
 
 bootstrap();
