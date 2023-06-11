@@ -10,4 +10,6 @@ export const CurrentUser = createParamDecorator((
   }
 ))
 
-export const SocketCurrentUser = createWsParamDecorator(WsParamtype.SOCKET)(new SocketCurrentUserPipe());
+export const SocketCurrentUser = () => {
+  return createWsParamDecorator(WsParamtype.SOCKET)(new SocketCurrentUserPipe());
+}
