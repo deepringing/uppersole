@@ -9,7 +9,6 @@ import * as process from 'process';
 export class JwtStrategy extends PassportStrategy(Strategy) {
 
   constructor(private readonly prisma: PrismaService) {
-    console.log("===============> " + process.env.JWT_SECRET);
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET,

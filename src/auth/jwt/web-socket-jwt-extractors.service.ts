@@ -6,11 +6,12 @@ export class WebSocketJwtExtractor {
 
   static fromHeader = function () {
     return function (request) {
-      let token = null;
-      if (request.auth.token) {
-        token = request.auth.token;
+      if (request.headers.authorization) {
+        const token = request.headers.authorization;
+        return token.replace('Bearer ', '');
       }
-      return token;
+
+      return null;
     };
   };
 }

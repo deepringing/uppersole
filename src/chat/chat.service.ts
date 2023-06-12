@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
 import { MessageRequest } from './dto/chat.request.dto';
-import { MESSAGE, SEND_MESSAGE } from './chat.constant';
+import { MESSAGE } from './chat.constant';
 
 @Injectable()
 export class ChatService {
@@ -37,11 +37,11 @@ export class ChatService {
     const { message, chatRoomId } = request;
     const { id } = user;
 
-    this.prisma.chat.create({
+    await this.prisma.chat.create({
       data: {
         text: message,
         userId: id,
-        chatRoomId: chatRoomId
+        chatRoomId: parseInt(chatRoomId)
       }
     });
 
@@ -53,7 +53,7 @@ export class ChatService {
   }
 
   async queryPreviousChat(id: string) {
-    return this.prisma.chat.findMany({
+    return (await this.prisma.chat.findMany({
       select: {
         user: { select: { nickname: true } },
         text: true,
@@ -61,6 +61,6 @@ export class ChatService {
       },
       where: { chatRoomId: parseInt(id) },
       orderBy: { id: 'asc' }
-    });
+    }));
   }
 }

@@ -1,4 +1,4 @@
-import { IsDateString, IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class MessageRequest {
@@ -6,7 +6,7 @@ export class MessageRequest {
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty()
-  chatRoomId: bigint;
+  chatRoomId: string;
 
   @IsNotEmpty()
   @IsString()

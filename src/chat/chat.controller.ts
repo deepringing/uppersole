@@ -1,5 +1,5 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { ChatService } from './chat.service';
 
@@ -9,11 +9,12 @@ export class ChatController {
 
   constructor(private readonly chatService: ChatService) {}
 
+  @ApiParam({ name: 'id', description: 'chat room id' })
   @UseGuards(AuthGuard('jwt'))
-  @Get('/:chat-room-id')
+  @Get('/:id')
   async queryPreviousChat(
-    @Param('chat-room-id') id: string
+    @Param('id') id: string
   ) {
-    await this.chatService.queryPreviousChat(id);
+    return await this.chatService.queryPreviousChat(id);
   }
 }
