@@ -7,18 +7,18 @@ export class GroupService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  queryGroup(q: string) {
-    return this.prisma.group.findMany({
+  async queryGroup(q: string) {
+    return (await this.prisma.group.findMany({
       where: {
         name: {
           contains: q
         }
       }
-    });
+    }));
   }
 
-  queryGroupMember(id: string) {
-    return this.prisma.user.findMany({
+  async queryGroupMember(id: string) {
+    return (await this.prisma.user.findMany({
       select: {
         nickname: true,
         description: true,
@@ -26,7 +26,7 @@ export class GroupService {
       where: {
         groupId: parseInt(id)
       }
-    })
+    }));
   }
 
   async createGroup(request: CreateGroupRequest) {

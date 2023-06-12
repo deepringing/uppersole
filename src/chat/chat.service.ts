@@ -19,7 +19,7 @@ export class ChatService {
     return chatRooms;
   }
 
-  private getChatRooms = async (user: User) => this.prisma.chatRoom.findMany({
+  private getChatRooms = async (user: User) => await this.prisma.chatRoom.findMany({
     select: {
       id: true,
       jack: { select: { nickname: true } },

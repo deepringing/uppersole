@@ -18,7 +18,7 @@ export class WebSocketJwtStrategy extends PassportStrategy(Strategy, 'web-socket
   }
 
   async validate(payload: Payload) {
-    const user = this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       select: {
         id: true,
         email: true,
