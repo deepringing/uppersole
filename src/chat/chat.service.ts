@@ -51,4 +51,16 @@ export class ChatService {
       chatRoomId
     });
   }
+
+  async queryPreviousChat(id: string) {
+    return this.prisma.chat.findMany({
+      select: {
+        user: { select: { nickname: true } },
+        text: true,
+        sentAt: true,
+      },
+      where: { chatRoomId: parseInt(id) },
+      orderBy: { id: 'asc' }
+    });
+  }
 }

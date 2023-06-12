@@ -7,9 +7,7 @@ import { SocketCurrentUser } from '../shared/decorators/auth.decorator';
 import { User } from '@prisma/client';
 import { ChatService } from './chat.service';
 import { MessageRequest } from './dto/chat.request.dto';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('채팅')
 @WebSocketGateway(3006, { namespace: 'chat' })
 export class ChatGateway {
 
