@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
-import { MessageRequest } from './dto/chat.request.dto';
+import { JoinRoomRequest, MessageRequest } from './dto/chat.request.dto';
 import { MESSAGE } from './chat.constant';
 
 @Injectable()
@@ -62,5 +62,42 @@ export class ChatService {
       where: { chatRoomId: parseInt(id) },
       orderBy: { id: 'asc' }
     }));
+  }
+
+  async joinRoom(socket: Socket, user: User, request: JoinRoomRequest) {
+    const { id } = user;
+    const { targetUserId } = request;
+    const chatRoom = await this.prisma.chatRoom.findFirst({
+      where: {
+        OR: [
+          {
+            AND: [
+              { jillId: user.id },
+              { jackId: parseInt(targetUserId) }
+            ],
+          },
+          {
+            AND: [
+              { jillId: parseInt(targetUserId) },
+              { jackId: user.id }
+            ]
+          },
+        ],
+      }
+    });
+
+    if (!chatRoom) {
+      const chatRoom = await this.prisma.chatRoom.create({
+        data: {
+          jackId: id,
+          jillId: parseInt(targetUserId)
+        },
+        select: {
+          id: true
+        },
+      })
+
+      socket.join(`${chatRoom.id}`);
+    }
   }
 }

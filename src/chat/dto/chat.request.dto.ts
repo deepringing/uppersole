@@ -1,10 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsNumberString, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class MessageRequest {
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsNumberString()
   @ApiProperty()
   chatRoomId: string;
 
@@ -12,4 +12,12 @@ export class MessageRequest {
   @IsString()
   @ApiProperty()
   message: string;
+}
+
+export class JoinRoomRequest {
+
+  @IsNotEmpty()
+  @IsNumberString()
+  @ApiProperty()
+  targetUserId: string;
 }
