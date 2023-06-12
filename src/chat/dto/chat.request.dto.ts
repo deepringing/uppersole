@@ -1,9 +1,15 @@
-import { IsDateString, IsInt } from 'class-validator';
+import { IsDateString, IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ConnectRequest {
+export class MessageRequest {
 
-  startDate: Date;
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty()
+  chatRoomId: bigint;
 
-  consultantId: bigint;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  message: string;
 }

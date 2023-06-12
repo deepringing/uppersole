@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
+import { MessageRequest } from './dto/chat.request.dto';
+import { MESSAGE, SEND_MESSAGE } from './chat.constant';
 
 @Injectable()
 export class ChatService {
@@ -17,8 +19,6 @@ export class ChatService {
     return chatRooms;
   }
 
-  async sendChat(socket: Socket, message)
-
   private getChatRooms = async (user: User) => this.prisma.chatRoom.findMany({
     select: {
       id: true,
@@ -32,4 +32,23 @@ export class ChatService {
       ]
     }
   });
+
+  async sendChat(socket: Socket, user: User, request: MessageRequest) {
+    const { message, chatRoomId } = request;
+    const { id } = user;
+
+    this.prisma.chat.create({
+      data: {
+        text: message,
+        userId: id,
+        chatRoomId: chatRoomId
+      }
+    });
+
+    socket.broadcast.to(`${chatRoomId}`).emit(MESSAGE, {
+      message,
+      id,
+      chatRoomId
+    });
+  }
 }
