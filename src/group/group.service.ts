@@ -20,6 +20,7 @@ export class GroupService {
   async queryGroupMember(id: string) {
     return (await this.prisma.user.findMany({
       select: {
+        id: true,
         nickname: true,
         description: true,
       },
