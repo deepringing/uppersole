@@ -1,18 +1,12 @@
 version: '3'
 
 services:
-  mysql:
-    container_name: upper_mysql
-    image: mysql/mysql-server:5.7
+  postgresql:
+    container_name: upper_postgresql
+    image: postgres:15-alpine
     environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_USER: "upper"
-      MYSQL_PASSWORD: "upper"
-      MYSQL_DATABASE: "upper"
-      MYSQL_ROOT_PASSWORD: "upper"
+      POSTGRES_USER: "upper"
+      POSTGRES_PASSWORD: "upper"
+      POSTGRES_DB: "upper"
     ports:
-      - "3309:3306"
-    command:
-      - "mysqld"
-      - "--character-set-server=utf8mb4"
-      - "--collation-server=utf8mb4_unicode_ci"
+      - "5432:5432"
